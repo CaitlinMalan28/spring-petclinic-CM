@@ -28,37 +28,37 @@ jobs:
         - name: Build with Maven
           run: ./mvnw -B package --file pom.xml
 
-        # - name: Create Application Artifact
-        #   uses: actions/upload-artifact@v4
-        #   with:
-        #     name: java-app-artifact
-        #     path: target/*.jar
+        - name: Create Application Artifact
+          uses: actions/upload-artifact@v4
+          with:
+            name: java-app-artifact
+            path: target/*.jar
 
 
 #----------Stage 2: Test----------
-test:
-    runs-on: ubuntu-latest
-    needs: build
+# test:
+#     runs-on: ubuntu-latest
+#     needs: build
 
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+#     steps:
+#       - name: Checkout Code
+#         uses: actions/checkout@v4
 
-      - name: Set up Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-          cache: 'maven'
+#       - name: Set up Java
+#         uses: actions/setup-java@v4
+#         with:
+#           distribution: 'temurin'
+#           java-version: '17'
+#           cache: 'maven'
 
-      - name: Run Unit Tests
-        run: mvn test
+#       - name: Run Unit Tests
+#         run: mvn test
 
-      - name: Upload Test Reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-reports
-          path: target/surefire-reports/
+#       - name: Upload Test Reports
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: test-reports
+#           path: target/surefire-reports/
 
 #----------Stage 3: Docker Build & Push----------
 
