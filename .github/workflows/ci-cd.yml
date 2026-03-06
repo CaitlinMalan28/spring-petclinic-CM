@@ -57,7 +57,7 @@ jobs:
           uses: actions/upload-artifact@v4
           with:
             name: test-reports
-            path: teststep/test-reports/
+            path: test_step/test_reports/
 
 #----------Stage 3: Docker Build & Push----------
 
