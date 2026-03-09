@@ -102,6 +102,7 @@ jobs:
        with:
          image-ref: ${{ secrets.DOCKER_USERNAME }}/my-image:latest
          format: table
+         output: trivy-report.json
          exit-code: 0
          ignore-unfixed: true
          vuln-type: os,library
