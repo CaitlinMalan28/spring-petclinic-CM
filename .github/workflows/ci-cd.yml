@@ -106,6 +106,7 @@ jobs:
          ignore-unfixed: true
          vuln-type: os,library
          severity: CRITICAL, HIGH
+         scanners: vuln
          
      - name: Upload Scan Report
        uses:  actions/upload-artifact@v4
