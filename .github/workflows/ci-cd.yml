@@ -87,8 +87,8 @@ jobs:
            context: .
            push: true
            tags: |
-             ${{ secrets.DOCKER_USERNAME }}/my-image:latest
-             ${{ secrets.DOCKER_USERNAME }}/my-image:${{ github.sha }}
+             ${{ secrets.DOCKER_USERNAME }}/spring-petclinic:latest
+             ${{ secrets.DOCKER_USERNAME }}/spring-petclinic:${{ github.sha }}
        
 
 #----------Stage 4: Container Scanning----------
