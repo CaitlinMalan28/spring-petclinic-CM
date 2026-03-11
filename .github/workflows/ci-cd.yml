@@ -100,7 +100,7 @@ jobs:
      - name: Scan Docker Image with Trivy
        uses: aquasecurity/trivy-action@0.20.0
        with:
-         image-ref: ${{ secrets.DOCKER_USERNAME }}/my-image:latest
+         image-ref: ${{ secrets.DOCKER_USERNAME }}/spring-petclinic:latest
          format: table
          output: trivy-report.json
          exit-code: 0
