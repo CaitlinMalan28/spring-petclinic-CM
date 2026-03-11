@@ -92,28 +92,28 @@ jobs:
        
 
 #----------Stage 4: Container Scanning----------
-   scan:
-    runs-on: ubuntu-latest
-    needs: docker
+  scan:
+      runs-on: ubuntu-latest
+      needs: docker
 
-    steps:
-     - name: Scan Docker Image with Trivy
-       uses: aquasecurity/trivy-action@0.20.0
-       with:
-         image-ref: ${{ secrets.DOCKER_USERNAME }}/my-image:latest
-         format: table
-         output: trivy-report.json
-         exit-code: 0
-         ignore-unfixed: true
-         vuln-type: os,library
-         severity: CRITICAL, HIGH
-         scanners: vuln
-         
-     - name: Upload Scan Report
-       uses:  actions/upload-artifact@v4
-       with:
-          name: trivy-security-report
-          path: trivy-report.json
+      steps:
+       - name: Scan Docker Image with Trivy
+         uses: aquasecurity/trivy-action@0.20.0
+         with:
+           image-ref: ${{ secrets.DOCKER_USERNAME }}/my-image:latest
+           format: table
+           output: trivy-report.json
+           exit-code: 0
+           ignore-unfixed: true
+           vuln-type: os,library
+           severity: CRITICAL, HIGH
+           scanners: vuln
+           
+       - name: Upload Scan Report
+         uses:  actions/upload-artifact@v4
+         with:
+            name: trivy-security-report
+            path: trivy-report.json
 
 #----------Stage 5: Deploy to AWS ECS----------
   deploy:
