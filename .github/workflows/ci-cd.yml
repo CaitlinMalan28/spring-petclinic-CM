@@ -74,7 +74,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y apache2-utils
       - name: Run Performance Test
         run: |
-          ab -n 100 -c 10 http://$13.245.18.180:8080/ > performance.txt
+          ab -n 100 -c 10 http://13.245.18.180:8080/ > performance.txt
       - name: Upload Performance Results
         uses: actions/upload-artifact@v4
         with:
