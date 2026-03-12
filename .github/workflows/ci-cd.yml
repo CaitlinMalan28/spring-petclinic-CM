@@ -131,26 +131,17 @@ jobs:
 
       - name: ECS Service Deployment
         run: |
-          aws ecs update-service \
-            --cluster ${{ secrets.ECS_CLUSTER_NAME }} \
-            --service ${{ secrets.ECS_SERVICE_NAME }} \
-            --force-new-deployment
+          aws ecs update-service --cluster ${{ secrets.ECS_CLUSTER_NAME }} --service ${{ secrets.ECS_SERVICE_NAME }} --force-new-deployment
 
       - name: Verify the Deployment
         run: |
-          aws ecs describe-services \
-            --cluster ${{ secrets.ECS_CLUSTER_NAME }} \
-            --services ${{ secrets.ECS_SERVICE_NAME }}
+          aws ecs describe-services --cluster ${{ secrets.ECS_CLUSTER_NAME }} --services ${{ secrets.ECS_SERVICE_NAME }}
 
       - name: Rollback if ECS deployment fails
         if: failure()
         run: |
           echo "Deployment failed, rolling back to stable image..."
-          aws ecs update-service \
-            --cluster ${{ secrets.ECS_CLUSTER_NAME }} \
-            --service ${{ secrets.ECS_SERVICE_NAME }} \
-            --force-new-deployment \
-            --image ${{ secrets.DOCKER_USERNAME }}/spring-petclinic:stable
+          aws ecs update-service --cluster ${{ secrets.ECS_CLUSTER_NAME }} --service ${{ secrets.ECS_SERVICE_NAME }} --force-new-deployment --image ${{ secrets.DOCKER_USERNAME }}/spring-petclinic:stable
 
 #----------Stage 6: Performance Testing----------
   # performance:
