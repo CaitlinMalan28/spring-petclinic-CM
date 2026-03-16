@@ -153,10 +153,10 @@ jobs:
         id: set_status
         run: |
           if [ "${{ needs.deploy.result }}" == "success" ]; then
-            echo "status_text=🏰 Huzzah! The pipeline hath triumphed!" >> $GITHUB_OUTPUT
+            echo "status_text= Huzzah! The pipeline hath succeed!" >> $GITHUB_OUTPUT
             echo "status_color=green" >> $GITHUB_OUTPUT
           else
-            echo "status_text=💀 Alas! The pipeline hath faltered!" >> $GITHUB_OUTPUT
+            echo "status_text=💀 Alas! The pipeline hath failed!" >> $GITHUB_OUTPUT
             echo "status_color=red" >> $GITHUB_OUTPUT
           fi
   
@@ -165,29 +165,27 @@ jobs:
         with:
           message_title: "Hear Ye! Hear Ye! CI/CD Pipeline Report: ${{ github.workflow }}"
           message_description: |
-            Greetings, noble fellow DevOps Engineer! Thy pipeline hath completed its noble quest.
+            > Greetings, fellow DevOps Engineer! Thy pipeline hath completed its noble quest.
 
-            **Pipeline Summary**
+            # <ins>**Pipeline Summary**</ins>
           
-            Repository: ${{ github.repository }}
-            Branch: ${{ github.ref_name }}
-            Status: ${{ steps.set_status.outputs.status_text }}
-            Actor: ${{ github.actor }}
-            Commit: ${{ github.sha }}
-            Logs: ${{ github.server_url }}/{{ github.repository }}/actions/runs/${{ github.run_id }}
+            - **Repository**: ${{ github.repository }}
+            - **Branch**: ${{ github.ref_name }}
+            - **Status**: ${{ steps.set_status.outputs.status_text }}
+            - **Actor**: ${{ github.actor }}
+            - **Commit**: ${{ github.sha }}
+            - **Logs**: ${{ github.server_url }}/{{ github.repository }}/actions/runs/${{ github.run_id }}
 
             **Status:** ${{ steps.set_status.outputs.status_text }}  
 
-            **Logs:** [View here](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})  
-
-            **Stage Results**
-            - Build: ${{ needs.build.result }}
-            - Test: ${{ needs.test.result }}
-            - Docker: ${{ needs.docker.result }}
-            - Scan: ${{ needs.scan.result }}
-            - Deploy: ${{ needs.deploy.result }}
+            <ins>**Stage Results**</ins>
+            - **Build**: ${{ needs.build.result }}
+            - **Test**: ${{ needs.test.result }}
+            - **Docker**: ${{ needs.docker.result }}
+            - **Scan**: ${{ needs.scan.result }}
+            - **Deploy**: ${{ needs.deploy.result }}
 
             Pipeline hue: **${{ steps.set_status.outputs.status_color }}**
           webhook: ${{ secrets.TEAMS_WEBHOOK }}
-          image_url: "https://img.icons8.com/?size=100&id=v551nqGeHhGn&format=png&color=000000"
+          image_url: "https://icons8.com/icon/118553/github"
           extra_text_blocks: "Pipeline hue: ${{ steps.set_status.outputs.status_color }}"
