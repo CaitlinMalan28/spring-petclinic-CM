@@ -139,3 +139,41 @@ jobs:
           aws ecs describe-services \
             --cluster ${{ secrets.ECS_CLUSTER_NAME }} \
             --services ${{ secrets.ECS_SERVICE_NAME }}
+
+#----------Stage 6: Performance Testing----------
+
+#----------Stage 7: Pipeline Alerts----------
+  alert:
+    runs-on: ubuntu-latest
+    needs: [build, test, docker, scan, deploy]
+  
+    steps:
+      - name: Set pipeline status
+        id: set_status
+        run: |
+          if [ "${{ needs.deploy.result }}" == "success" ]; then
+            echo "status_text=🏰 Huzzah! The pipeline hath triumphed!" >> $GITHUB_OUTPUT
+            echo "status_color=green" >> $GITHUB_OUTPUT
+          else
+            echo "status_text=💀 Alas! The pipeline hath faltered!" >> $GITHUB_OUTPUT
+            echo "status_color=red" >> $GITHUB_OUTPUT
+          fi
+  
+      - name: Send Teams message
+        uses: tlolkema/simple-teams-message@main
+        with:
+          message_title: "Hear Ye! Hear Ye! CI/CD Pipeline Report: ${{ github.workflow }}"
+          message_description: |
+            Greetings, noble fellow DevOps Engineer! Thy pipeline hath completed its noble quest.
+  
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.ref_name }}
+            Status: ${{ steps.set_status.outputs.status_text }}
+            Actor: ${{ github.actor }}
+            Commit: ${{ github.sha }}
+            Logs: ${{ github.server_url }}/{{ github.repository }}/actions/runs/${{ github.run_id }}
+  
+            Pray, review the logs and rejoice or lament accordingly.
+          webhook: ${{ secrets.TEAMS_WEBHOOK }}
+          image_url: "https://img.icons8.com/color/48/000000/github--v1.png"
+          extra_text_blocks: "Pipeline hue: ${{ steps.set_status.outputs.status_color }}"
