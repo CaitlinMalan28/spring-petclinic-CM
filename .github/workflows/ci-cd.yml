@@ -167,7 +167,7 @@ jobs:
           message_description: |
             > Greetings, fellow DevOps Engineer! Thy pipeline hath completed its noble quest.
 
-            # <ins>**Pipeline Summary**</ins>
+            **Pipeline Summary**
           
             - **Repository**: ${{ github.repository }}
             - **Branch**: ${{ github.ref_name }}
@@ -178,14 +178,17 @@ jobs:
 
             **Status:** ${{ steps.set_status.outputs.status_text }}  
 
-            <ins>**Stage Results**</ins>
-            - **Build**: ${{ needs.build.result }}
-            - **Test**: ${{ needs.test.result }}
-            - **Docker**: ${{ needs.docker.result }}
-            - **Scan**: ${{ needs.scan.result }}
-            - **Deploy**: ${{ needs.deploy.result }}
+            **Stage Results**
+
+            | Job  | Status |
+            |--------|--------|
+            | Build  | ${{ needs.build.result }} |
+            | Test   | ${{ needs.test.result }} |
+            | Docker | ${{ needs.docker.result }} |
+            | Scan   | ${{ needs.scan.result }} |
+            | Deploy | ${{ needs.deploy.result }} |
 
             Pipeline hue: **${{ steps.set_status.outputs.status_color }}**
           webhook: ${{ secrets.TEAMS_WEBHOOK }}
-          image_url: "https://icons8.com/icon/118553/github"
+          image_url: "https://icons8.com/icon/g7P0iny5Rros/github"
           extra_text_blocks: "Pipeline hue: ${{ steps.set_status.outputs.status_color }}"
