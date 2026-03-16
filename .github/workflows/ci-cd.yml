@@ -145,6 +145,7 @@ jobs:
 #----------Stage 7: Pipeline Alerts----------
   alert:
     runs-on: ubuntu-latest
+    if: always()
     needs: [build, test, docker, scan, deploy]
   
     steps:
