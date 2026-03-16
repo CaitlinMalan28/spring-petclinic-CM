@@ -166,15 +166,28 @@ jobs:
           message_title: "Hear Ye! Hear Ye! CI/CD Pipeline Report: ${{ github.workflow }}"
           message_description: |
             Greetings, noble fellow DevOps Engineer! Thy pipeline hath completed its noble quest.
-  
+
+            **Pipeline Summary**
+          
             Repository: ${{ github.repository }}
             Branch: ${{ github.ref_name }}
             Status: ${{ steps.set_status.outputs.status_text }}
             Actor: ${{ github.actor }}
             Commit: ${{ github.sha }}
             Logs: ${{ github.server_url }}/{{ github.repository }}/actions/runs/${{ github.run_id }}
-  
-            Pray, review the logs and rejoice or lament accordingly.
+
+            **Status:** ${{ steps.set_status.outputs.status_text }}  
+
+            **Logs:** [View here](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})  
+
+            **Stage Results**
+            - Build: ${{ needs.build.result }}
+            - Test: ${{ needs.test.result }}
+            - Docker: ${{ needs.docker.result }}
+            - Scan: ${{ needs.scan.result }}
+            - Deploy: ${{ needs.deploy.result }}
+
+            Pipeline hue: **${{ steps.set_status.outputs.status_color }}**
           webhook: ${{ secrets.TEAMS_WEBHOOK }}
-          image_url: "https://img.icons8.com/color/48/000000/github--v1.png"
+          image_url: "https://img.icons8.com/?size=100&id=v551nqGeHhGn&format=png&color=000000"
           extra_text_blocks: "Pipeline hue: ${{ steps.set_status.outputs.status_color }}"
