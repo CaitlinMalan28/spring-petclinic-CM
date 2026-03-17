@@ -179,14 +179,26 @@ jobs:
       - name: Set pipeline status
         id: set_status
         run: |
-          if [ "${{ needs.deploy.result }}" == "success" ]; then
-            echo "status_text= 🏆Huzzah! The pipeline hath succeed!🏆🟢" >> $GITHUB_OUTPUT
-            echo "status_color=green" >> $GITHUB_OUTPUT
-          else
-            echo "status_text= 💀Alas! The pipeline hath failed!💀🔴" >> $GITHUB_OUTPUT
-            echo "status_color=red" >> $GITHUB_OUTPUT
-          fi
+        
+            STATUS="success"
   
+            if [ "${{ needs.build.result }}" != "success" ] || \
+               [ "${{ needs.test.result }}" != "success" ] || \
+               [ "${{ needs.docker.result }}" != "success" ] || \
+               [ "${{ needs.scan.result }}" != "success" ] || \
+               [ "${{ needs.deploy.result }}" != "success" ] || \
+               [ "${{ needs.performance.result }}" != "success" ]; then
+              STATUS="failure"
+            fi
+  
+            if [ "$STATUS" == "success" ]; then
+              echo "status_text= 🏆Huzzah! The pipeline hath succeeded!🏆🟢" >> $GITHUB_OUTPUT
+              echo "status_color=green" >> $GITHUB_OUTPUT
+            else
+              echo "status_text= 💀Alas! The pipeline hath failed!💀🔴" >> $GITHUB_OUTPUT
+              echo "status_color=red" >> $GITHUB_OUTPUT
+            fi
+    
       - name: Send Teams message
         uses: tlolkema/simple-teams-message@main
         with:
