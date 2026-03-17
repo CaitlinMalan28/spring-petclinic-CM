@@ -165,7 +165,8 @@ jobs:
         with:
           message_title: "Hear Ye! Hear Ye! CI/CD Pipeline Report: ${{ github.workflow }}"
           message_description: |
-            > # Greetings, fellow DevOps Engineer! Thy pipeline hath completed its quest.
+            # ⚔️⚔️⚔️ Greetings, fellow DevOps Engineer! Thy pipeline hath completed its quest.⚔️⚔️⚔️
+            
             ##  Pipeline Summary
           
             - **Repository**: ${{ github.repository }}
