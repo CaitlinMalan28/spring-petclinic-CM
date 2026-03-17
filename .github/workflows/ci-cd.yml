@@ -162,7 +162,9 @@ jobs:
           
       - name: Send Teams message 
         run: |
-          curl -X POST -H "Content-Type: application/json" -d '{
+          curl -X POST -H "Content-Type: application/json" \
+          -d @- ${{ secrets.TEAMS_WEBHOOK }} <<EOF
+          {
             "type": "message",
             "attachments": [
               {
@@ -173,57 +175,59 @@ jobs:
                   "msteams": { "width": "full" },
                   "body": [
                     {
-                      "type": "Container", 
-                      "style" : "${{ steps.set_status.outputs.status_colour }}",
+                      "type": "Container",
+                      "style": "${{ steps.set_status.outputs.status_colour }}",
                       "bleed": true,
                       "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "CI/CD Report: ${{ github.workflow }}",
-                        "weight": "Bolder",
-                        "size": "ExtraLarge"
-                    },
-                    {
-                        "type": "TextBlock",
-                        "text": "Greetings, fellow DevOps Engineer! Thy pipeline has completed it's quest.",
-                        "isSubtle": true,
-                        "wrap": true
-                    },
-                    {
-                      "type": "FactSet",
-                      "facts": [
-                        { "title": "Status", "value": "${{ steps.set_status.outputs.status_text }}" },
-                        { "title": "Repository", "value": "${{ github.repository }}" },
-                        { "title": "Branch", "value": "${{ github.ref_name }}" },
-                        { "title": "Actor", "value": "${{ github.actor }}" }
+                        {
+                          "type": "TextBlock",
+                          "text": "CI/CD Report: ${{ github.workflow }}",
+                          "weight": "Bolder",
+                          "size": "ExtraLarge"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "text": "Greetings, fellow DevOps Engineer! Thy pipeline has completed its quest.",
+                          "isSubtle": true,
+                          "wrap": true
+                        },
+                        {
+                          "type": "FactSet",
+                          "facts": [
+                            { "title": "Status", "value": "${{ steps.set_status.outputs.status_text }}" },
+                            { "title": "Repository", "value": "${{ github.repository }}" },
+                            { "title": "Branch", "value": "${{ github.ref_name }}" },
+                            { "title": "Actor", "value": "${{ github.actor }}" }
+                          ]
+                        },
+                        {
+                          "type": "TextBlock",
+                          "text": "## Stage Results",
+                          "weight": "Bolder"
+                        },
+                        {
+                          "type": "FactSet",
+                          "facts": [
+                            { "title": "Build", "value": "${{ needs.build.result }}" },
+                            { "title": "Test", "value": "${{ needs.test.result }}" },
+                            { "title": "Docker", "value": "${{ needs.docker.result }}" },
+                            { "title": "Scan", "value": "${{ needs.scan.result }}" },
+                            { "title": "Deploy", "value": "${{ needs.deploy.result }}" }
+                          ]
+                        }
+                      ],
+                      "actions": [
+                        {
+                          "type": "Action.OpenUrl",
+                          "title": "View Run Logs",
+                          "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                        }
                       ]
-                    },
-                    {
-                      "type": "TextBlock",
-                      "text": "## Stage Results",
-                      "weight": "Bolder"
-                    },
-                    {
-                      "type": "FactSet",
-                      "facts": [
-                        { "title": "Build", "value": "${{ needs.build.result }}" },
-                        { "title": "Test", "value": "${{ needs.test.result }}" },
-                        { "title": "Docker", "value": "${{ needs.docker.result }}" },
-                        { "title": "Scan", "value": "${{ needs.scan.result }}" },
-                        { "title": "Deploy", "value": "${{ needs.deploy.result }}" }
-                      ]
-                    }
-                  ],
-                  "actions": [
-                    {
-                      "type": "Action.OpenUrl",
-                      "title": "View Run Logs",
-                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
                     }
                   ],
                   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json"
                 }
               }
             ]
-          }' ${{ secrets.TEAMS_WEBHOOK }}
-
+          }
+          EOF
