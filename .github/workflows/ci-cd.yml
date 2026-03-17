@@ -163,27 +163,167 @@ jobs:
       - name: Send Teams message
         uses: tlolkema/simple-teams-message@main
         with:
-          message_title: "Hear Ye! Hear Ye! CI/CD Pipeline Report: ${{ github.workflow }}"
-          message_description: |
-            > Greetings, fellow DevOps Engineer! Thy pipeline hath completed its noble quest.
-            # **Pipeline Summary**
-          
-            - **Repository**: ${{ github.repository }}
-            - **Branch**: ${{ github.ref_name }}
-            - **Status**: ${{ steps.set_status.outputs.status_text }}
-            - **Actor**: ${{ github.actor }}
-            - **Logs**: ${{ github.server_url }}/{{ github.repository }}/actions/runs/${{ github.run_id }}
-            
-            **Status:** ${{ steps.set_status.outputs.status_text }}  
-            
-            **Stage Results**
-            
-            - **Build**: ${{ needs.build.result }}
-            - **Test**: ${{ needs.test.result }}
-            - **Docker**: ${{ needs.docker.result }}
-            - **Scan**: ${{ needs.scan.result }}
-            - **Deploy**: ${{ needs.deploy.result }}
-            
-            Pipeline hue: **${{ steps.set_status.outputs.status_color }}**
           webhook: ${{ secrets.TEAMS_WEBHOOK }}
-          image_url: "https://icons8.com/icon/3tC9EQumUAuq/github"
+          json_payload: |
+            {
+              "type": "message",
+              "attachments": [
+                {
+                  "contentType": "application/vnd.microsoft.card.adaptive",
+                  "content": {
+                    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                    "type": "AdaptiveCard",
+                    "version": "1.4",
+                    "body": [
+      
+                      {
+                        "type": "Container",
+                        "style": "emphasis",
+                        "bleed": true,
+                        "items": [
+                          {
+                            "type": "TextBlock",
+                            "text": "CI/CD Pipeline Report",
+                            "weight": "Bolder",
+                            "size": "Large"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "text": "${{ github.workflow }}",
+                            "spacing": "None",
+                            "isSubtle": true
+                          }
+                        ]
+                      },
+      
+                      {
+                        "type": "Container",
+                        "items": [
+                          {
+                            "type": "ColumnSet",
+                            "columns": [
+                              {
+                                "type": "Column",
+                                "width": "stretch",
+                                "items": [
+                                  {
+                                    "type": "TextBlock",
+                                    "text": "Repository",
+                                    "weight": "Bolder"
+                                  },
+                                  {
+                                    "type": "TextBlock",
+                                    "text": "${{ github.repository }}",
+                                    "wrap": true
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "Column",
+                                "width": "stretch",
+                                "items": [
+                                  {
+                                    "type": "TextBlock",
+                                    "text": "Branch",
+                                    "weight": "Bolder"
+                                  },
+                                  {
+                                    "type": "TextBlock",
+                                    "text": "${{ github.ref_name }}",
+                                    "wrap": true
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+      
+                          {
+                            "type": "ColumnSet",
+                            "spacing": "Medium",
+                            "columns": [
+                              {
+                                "type": "Column",
+                                "width": "stretch",
+                                "items": [
+                                  {
+                                    "type": "TextBlock",
+                                    "text": "Actor",
+                                    "weight": "Bolder"
+                                  },
+                                  {
+                                    "type": "TextBlock",
+                                    "text": "${{ github.actor }}"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "Column",
+                                "width": "stretch",
+                                "items": [
+                                  {
+                                    "type": "TextBlock",
+                                    "text": "Status",
+                                    "weight": "Bolder"
+                                  },
+                                  {
+                                    "type": "TextBlock",
+                                    "text": "${{ steps.set_status.outputs.status_text }}",
+                                    "color": "${{ steps.set_status.outputs.status_color == 'green' && 'Good' || 'Attention' }}",
+                                    "weight": "Bolder"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+      
+                      {
+                        "type": "Container",
+                        "spacing": "Medium",
+                        "items": [
+                          {
+                            "type": "TextBlock",
+                            "text": "Stage Results",
+                            "weight": "Bolder",
+                            "size": "Medium"
+                          },
+      
+                          {
+                            "type": "ColumnSet",
+                            "columns": [
+                              {
+                                "type": "Column",
+                                "width": "stretch",
+                                "items": [
+                                  { "type": "TextBlock", "text": "Build: ${{ needs.build.result }}" },
+                                  { "type": "TextBlock", "text": "Test: ${{ needs.test.result }}" },
+                                  { "type": "TextBlock", "text": "Docker: ${{ needs.docker.result }}" }
+                                ]
+                              },
+                              {
+                                "type": "Column",
+                                "width": "stretch",
+                                "items": [
+                                  { "type": "TextBlock", "text": "Scan: ${{ needs.scan.result }}" },
+                                  { "type": "TextBlock", "text": "Deploy: ${{ needs.deploy.result }}" }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+      
+                    ],
+      
+                    "actions": [
+                      {
+                        "type": "Action.OpenUrl",
+                        "title": "🔎 View Logs",
+                        "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
