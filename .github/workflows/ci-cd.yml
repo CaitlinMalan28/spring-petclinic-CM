@@ -161,7 +161,16 @@ jobs:
         
       - name: Run Performance Test
         run: |
-          ab -n 100 -c 10 http://$13.245.18.180:8080/ > performance.txt
+        
+          for i in {1..30}; do
+            if curl -s http://13.245.18.180:8080/ > /dev/null; then
+              echo "Service is up and running!"
+              break
+            fi
+            sleep 10
+          done
+      
+          ab -n 100 -c 10 http://13.245.18.180:8080/ > performance.txt
           
       - name: Upload Performance Results
         uses: actions/upload-artifact@v4
