@@ -173,7 +173,7 @@ jobs:
   alert:
     runs-on: ubuntu-latest
     if: always()
-    needs: [build, test, docker, scan, deploy]
+    needs: [build, test, docker, scan, deploy, performance]
   
     steps:
       - name: Set pipeline status
@@ -211,6 +211,7 @@ jobs:
             - **Docker**: ${{ needs.docker.result }}
             - **Scan**: ${{ needs.scan.result }}
             - **Deploy**: ${{ needs.deploy.result }}
+            - **Performance Testing**: ${{ needs.performance.result }}
           
           webhook: ${{ secrets.TEAMS_WEBHOOK }}
           image_url: "https://img.icons8.com/?size=100&id=118557&format=png&color=000000"
