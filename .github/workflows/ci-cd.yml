@@ -165,9 +165,10 @@ jobs:
         with:
           message_title: "Hear Ye! Hear Ye! CI/CD Pipeline Report: ${{ github.workflow }}"
           message_description: |
-            # ⚔️⚔️⚔️ Greetings, fellow DevOps Engineer! Thy pipeline hath completed its quest.⚔️⚔️⚔️
+            ⚔️ Greetings, fellow DevOps Engineer! Thy pipeline hath completed its quest.⚔️
             
-            ##  Pipeline Summary
+            **PIPELINE SUMMARY**
+            --------------------
           
             - **Repository**: ${{ github.repository }}
             - **Branch**: ${{ github.ref_name }}
@@ -184,4 +185,4 @@ jobs:
             - **Deploy**: ${{ needs.deploy.result }}
           
           webhook: ${{ secrets.TEAMS_WEBHOOK }}
-          image_url: "https://icons8.com/icon/3tC9EQumUAuq/github"
+          image_url: "https://img.icons8.com/?size=100&id=118557&format=png&color=000000"
