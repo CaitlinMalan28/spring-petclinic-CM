@@ -1,13 +1,18 @@
 # Trainee DevOps Engineer Task: Documentation
----------------------------------------------
 
----------------------------------------------
 ## Project Set Up:
 ---------------------------------------------
 ### Initial Set Up:
 1. Create a forked repository
 2. Copy repository https
-3. Open Ubuntu terminal and 
+3. Open Ubuntu terminal and use command git clone "repository https"
+4. cd into repository project then use command code ..
+
+### Java Project Set Up:
+1. Download JDK (Java Developement Kit) at: https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
+2. 
+
+
 
 ### Pipelines
 #### Stages:
