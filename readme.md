@@ -139,5 +139,23 @@ Aggregates stage results, generates a success/failure summary, and sends a notif
 - Sends a formatted summary message to Microsoft Teams.
 - Includes stage-by-stage results, repository info, and actor details.
 ---------------------------------------------
+## Terraform:
+### Folder structure:
+
+<img width="277" height="378" alt="image" src="https://github.com/user-attachments/assets/5855b993-80ce-4281-90af-0352269ff141" />
+
+**Consists of four main files:**
+- main.tf: Defines the core infrastructure resources (This includes Task Definition, Cluster and Service, to be present on Amazon ECS)  
+- providers.tf: Configures the cloud provider and AWS region 
+- outputs.tf: Displays important details after deployment 
+- variables.tf: Declares input variables used to in ECS infrastructure
+
+
+
+
+
+
+
+
 
 
