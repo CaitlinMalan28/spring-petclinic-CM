@@ -147,8 +147,44 @@ Aggregates stage results, generates a success/failure summary, and sends a notif
 **Consists of four main files:**
 - main.tf: Defines the core infrastructure resources (This includes Task Definition, Cluster and Service, to be present on Amazon ECS)  
 - providers.tf: Configures the cloud provider and AWS region 
-- outputs.tf: Displays important details after deployment 
+- outputs.tf: Displays important details after deployment
 - variables.tf: Declares input variables used to in ECS infrastructure
+
+Running Terraform Commands:
+Once Terraform structure is set up run in terminal using commands:
+- terraform init . : Initialize terraform project
+- terraform plan -out=tf_aws_plan: Create infrastruture blueprint named tf_aws_plan
+- terraform apply tf_aws_plan: Uses created blueprint to set up AWS ECS
+- terraform destory: Use once deployment test is complete to delete infrastructure
+
+### Terraform (main.tf) Structure and settings:
+
+#### ECS Cluster
+- Creates a cluster to host the containerized application  
+- Uses a variable to define the cluster name  
+
+#### Task Definition
+- Defines how the container should run  
+- Uses Fargate (serverless compute for containers)  
+- Sets CPU being  cpu = "1024" and Memory being memory = "3072" allocation for the task  
+- Specifies the Docker image to use (`latest` tag from Docker Hub)  
+- Marks the container as essential (must run for the task to be healthy)  
+- Configures port mapping to expose the application on a specific port  
+
+#### ECS Service
+- Deploys and manages the running container instances  
+- Links the service to the ECS cluster and task definition  
+- Maintains a desired number of running tasks (set to 1)  
+- Uses Fargate as the launch type  
+
+#### Network Configuration
+- Specifies subnets where the service will run  
+- Attaches a security group for network access control  
+- Assigns a public IP address to allow external access  
+
+#### Additional Notes
+- Deployment configuration options (like minimum healthy percent) are available but currently not enabled  
+- Uses variables set in file for flexibility and reusability across environments  
 
 
 
