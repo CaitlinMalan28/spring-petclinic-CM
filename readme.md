@@ -1,8 +1,7 @@
 # Trainee DevOps Engineer Task: Documentation - Java CI/CD Pipeline with AWS ECS Deployment
 > This project demonstrates a complete **CI/CD pipeline** for a Java (Spring Boot) application using **GitHub Actions**, **Docker**, and **AWS ECS (Fargate)**, with infrastructure managed via **Terraform**.
----------------------------------------------
+
 ## 📌 Project Overview
----
 The pipeline automates:
 - Build and package Java application  
 - Run tests and generate reports  
@@ -11,7 +10,7 @@ The pipeline automates:
 - Deploy application to AWS ECS (Fargate)  
 - Run performance testing  
 - Send pipeline status alerts (Microsoft Teams)  
----
+
 ## Tech Stack
 - Java 17 + Maven  
 - GitHub Actions (CI/CD)  
@@ -20,19 +19,16 @@ The pipeline automates:
 - Terraform (Infrastructure as Code)  
 - Trivy (Security Scanning)  
 - Apache Bench (Performance Testing)  
----
+
 ## Prerequisites
-
 Before running this project, ensure you have:
-
 - Git installed  
 - Docker installed  
 - AWS account  
 - Terraform installed (>= 1.0)  
 - GitHub repository with Actions enabled  
----
-## Required Secrets (GitHub)
 
+## Required Secrets (GitHub)
 Add the following secrets in your repository:
 - DOCKER_USERNAME
 - DOCKER_TOKEN
@@ -44,7 +40,7 @@ Add the following secrets in your repository:
 - TEAMS_WEBHOOK
 ---------------------------------------------
 ## Project Set Up:
----
+
 ### Initial Set Up:
 1. Create a forked repository
 2. Copy repository https
@@ -52,12 +48,11 @@ Add the following secrets in your repository:
 4. cd into repository project then use command code ..
 
 ### Java Project Set Up:
-1. Download JDK (Java Developement Kit) at: https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
+1. Download and install JDK (Java Developement Kit) at: https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
 2. Run project locally using ./mvnw spring-boot: run
 ---------------------------------------------
 ## Dockerfile Overview
----
-This project uses a **multi-stage Docker build** to efficiently build and run the Java application.
+> This project uses a **multi-stage Docker build** to efficiently build and run the Java application.
 
 ### Build Stage
 - The first stage uses a Maven image with Java 17 to compile the application. 
@@ -80,7 +75,7 @@ This project uses a **multi-stage Docker build** to efficiently build and run th
 - Health checks are useful for monitoring in environments like AWS ECS  
 ---------------------------------------------
 ## Pipelines
----
+
 ### Stages:
 1. **Build:***
 Compiles the Java application using Maven, caches dependencies for faster builds, and creates a JAR artifact for later stages.
@@ -150,8 +145,7 @@ Aggregates stage results, generates a success/failure summary, and sends a notif
 - outputs.tf: Displays important details after deployment
 - variables.tf: Declares input variables used to in ECS infrastructure
 
-Running Terraform Commands:
-Once Terraform structure is set up run in terminal using commands:
+**Running Terraform Commands - Once Terraform structure is set up run in terminal using commands:**
 - terraform init . : Initialize terraform project
 - terraform plan -out=tf_aws_plan: Create infrastruture blueprint named tf_aws_plan
 - terraform apply tf_aws_plan: Uses created blueprint to set up AWS ECS
