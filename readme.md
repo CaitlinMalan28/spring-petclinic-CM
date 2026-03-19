@@ -1,5 +1,50 @@
-# Trainee DevOps Engineer Task: Documentation
+# Trainee DevOps Engineer Task: Documentation - Java CI/CD Pipeline with AWS ECS Deployment
 
+This project demonstrates a complete **CI/CD pipeline** for a Java (Spring Boot) application using **GitHub Actions**, **Docker**, and **AWS ECS (Fargate)**, with infrastructure managed via **Terraform**.
+---
+## 📌 Project Overview
+---
+The pipeline automates:
+- Build and package Java application  
+- Run tests and generate reports  
+- Build and push Docker image to Docker Hub  
+- Scan container for vulnerabilities  
+- Deploy application to AWS ECS (Fargate)  
+- Run performance testing  
+- Send pipeline status alerts (Microsoft Teams)  
+---
+## Tech Stack
+- Java 17 + Maven  
+- GitHub Actions (CI/CD)  
+- Docker & Docker Hub  
+- AWS ECS (Fargate)  
+- Terraform (Infrastructure as Code)  
+- Trivy (Security Scanning)  
+- Apache Bench (Performance Testing)  
+---
+
+## Prerequisites
+
+Before running this project, ensure you have:
+
+- Git installed  
+- Docker installed  
+- AWS account  
+- Terraform installed (>= 1.0)  
+- GitHub repository with Actions enabled  
+---
+## Required Secrets (GitHub)
+
+Add the following secrets in your repository:
+- DOCKER_USERNAME
+- DOCKER_TOKEN
+- AWS_ACCESS_KEY_ID
+- AWS_SECRET_ACCESS_KEY
+- AWS_DEFAULT_REGION
+- ECS_CLUSTER_NAME
+- ECS_SERVICE_NAME
+- TEAMS_WEBHOOK
+---
 ## Project Set Up:
 ---------------------------------------------
 ### Initial Set Up:
