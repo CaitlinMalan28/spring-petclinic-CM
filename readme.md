@@ -1,7 +1,7 @@
 # Trainee DevOps Engineer Task: Documentation - Java CI/CD Pipeline with AWS ECS Deployment
 > This project demonstrates a complete **CI/CD pipeline** for a Java (Spring Boot) application using **GitHub Actions**, **Docker**, and **AWS ECS (Fargate)**, with infrastructure managed via **Terraform**.
 
-## 📌 Project Overview
+## Project Overview
 The pipeline automates:
 - Build and package Java application  
 - Run tests and generate reports  
