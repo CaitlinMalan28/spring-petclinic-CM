@@ -1,7 +1,6 @@
 # Trainee DevOps Engineer Task: Documentation - Java CI/CD Pipeline with AWS ECS Deployment
-
-This project demonstrates a complete **CI/CD pipeline** for a Java (Spring Boot) application using **GitHub Actions**, **Docker**, and **AWS ECS (Fargate)**, with infrastructure managed via **Terraform**.
----
+> This project demonstrates a complete **CI/CD pipeline** for a Java (Spring Boot) application using **GitHub Actions**, **Docker**, and **AWS ECS (Fargate)**, with infrastructure managed via **Terraform**.
+---------------------------------------------
 ## 📌 Project Overview
 ---
 The pipeline automates:
@@ -22,7 +21,6 @@ The pipeline automates:
 - Trivy (Security Scanning)  
 - Apache Bench (Performance Testing)  
 ---
-
 ## Prerequisites
 
 Before running this project, ensure you have:
@@ -44,9 +42,9 @@ Add the following secrets in your repository:
 - ECS_CLUSTER_NAME
 - ECS_SERVICE_NAME
 - TEAMS_WEBHOOK
----
-## Project Set Up:
 ---------------------------------------------
+## Project Set Up:
+---
 ### Initial Set Up:
 1. Create a forked repository
 2. Copy repository https
@@ -55,11 +53,34 @@ Add the following secrets in your repository:
 
 ### Java Project Set Up:
 1. Download JDK (Java Developement Kit) at: https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
-2. 
+2. Run project locally using ./mvnw spring-boot: run
+---------------------------------------------
+## Dockerfile Overview
+---
+This project uses a **multi-stage Docker build** to efficiently build and run the Java application.
 
+### Build Stage
+- The first stage uses a Maven image with Java 17 to compile the application. 
+- It copies the project files, installs required dependencies, and packages the application into a `.jar` file. 
+- Tests are skipped to speed up the build process.
 
+### Runtime Stage
+- The second stage uses a lightweight Java runtime image. 
+- It copies only the built `.jar` file from the build stage, reducing the final image size. 
+- The container runs as a non-root user for improved security and includes a health check to ensure the application is running correctly.
 
+### Commands
+- Build image: docker build -t spring-petclinic .
+- Run container: docker run -p 8080:8080 spring-petclinic
+- Ensure application is running: http://localhost:8080
+
+### Notes
+- Multi-stage builds help reduce image size  
+- Running as a non-root user improves security  
+- Health checks are useful for monitoring in environments like AWS ECS  
+---------------------------------------------
 ### Pipelines
+---
 #### Stages:
 **Build:***
 Compiles the Java application using Maven, caches dependencies for faster builds, and creates a JAR artifact for later stages.
