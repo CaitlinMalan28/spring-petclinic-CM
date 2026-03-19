@@ -163,14 +163,14 @@ jobs:
         run: |
         
           for i in {1..30}; do
-            if curl -s http://13.245.18.180:8080/ > /dev/null; then
+            if curl -s http://16.28.95.56:8080/ > /dev/null; then
               echo "Service is up and running!"
               break
             fi
             sleep 10
           done
       
-          ab -n 100 -c 10 http://13.245.18.180:8080/ > performance.txt
+          ab -n 100 -c 10 http://16.28.95.56:8080/ > performance.txt
           
       - name: Upload Performance Results
         uses: actions/upload-artifact@v4
