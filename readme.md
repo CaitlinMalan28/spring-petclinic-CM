@@ -79,10 +79,10 @@ This project uses a **multi-stage Docker build** to efficiently build and run th
 - Running as a non-root user improves security  
 - Health checks are useful for monitoring in environments like AWS ECS  
 ---------------------------------------------
-### Pipelines
+## Pipelines
 ---
-#### Stages:
-**Build:***
+### Stages:
+1. **Build:***
 Compiles the Java application using Maven, caches dependencies for faster builds, and creates a JAR artifact for later stages.
 
 - Checks out the repository code.
@@ -90,7 +90,7 @@ Compiles the Java application using Maven, caches dependencies for faster builds
 - Compiles the application with Maven.
 - Uploads the compiled JAR as an artifact for subsequent stages.
 
-**Test:**
+2. **Test:**
 Runs unit tests with Maven, captures test logs, and uploads test reports as artifacts. Ensures that only passing code progresses.
 
 - Checks out code and sets up Java again.
@@ -98,7 +98,7 @@ Runs unit tests with Maven, captures test logs, and uploads test reports as arti
 - Uploads test reports as artifacts.
 - Always runs, even if build fails, to provide diagnostic logs
 
-**Docker Build & Push:**
+3. **Docker Build & Push:**
 Builds a Docker image of the application using a multi-stage Dockerfile, tags the image with latest and commit SHA, and pushes it to DockerHub.
 
 - Sets up Docker Buildx for building multi-platform images.
@@ -107,7 +107,7 @@ Builds a Docker image of the application using a multi-stage Dockerfile, tags th
 - Tags image with both latest and the commit SHA.
 - Pushes the image to DockerHub for deployment.
 
-**Container Scanning:**
+4. **Container Scanning:**
 Scans the Docker image for vulnerabilities using Trivy, generates a security report, and sets thresholds to prevent deployment if critical issues exist.
 
 - Uses Trivy to scan the Docker image for vulnerabilities.
@@ -115,7 +115,7 @@ Scans the Docker image for vulnerabilities using Trivy, generates a security rep
 - Generates a JSON security report and uploads it as an artifact.
 - Ensures vulnerable images do not get deployed.
 
-**Deploy to AWS ECS:**
+5. **Deploy to AWS ECS:**
 Updates the ECS service with the new Docker image, forces a new deployment, and verifies the service status. Includes rollback to a stable image if deployment fails.
 
 - Configures AWS credentials from GitHub Secrets.
@@ -123,7 +123,7 @@ Updates the ECS service with the new Docker image, forces a new deployment, and 
 - Verifies deployment status with describe-services.
 - Performs rollback to a stable image if deployment fails.
 
-**Performance Testing:**
+6. **Performance Testing:**
 Uses Apache Bench (ab) to test application performance and availability, waits for ECS service to be ready, and uploads performance results.
 
 - Installs Apache Bench (ab) for load testing.
@@ -131,7 +131,7 @@ Uses Apache Bench (ab) to test application performance and availability, waits f
 - Runs load test with 100 requests and concurrency of 10.
 - Saves and uploads performance results.
 
-**Pipeline Alerts:**
+7. **Pipeline Alerts:**
 Aggregates stage results, generates a success/failure summary, and sends a notification message to Microsoft Teams via webhook.
 
 - Collects results from all previous stages.
